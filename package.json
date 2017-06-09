@@ -1,0 +1,43 @@
+{
+  "name": "representation-tool-file-reader",
+  "version": "0.0.0",
+  "author": "Salim KAYABAŞI <salim.kayabasi@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "major": "npm version major -m \"New major version %s\"",
+    "minor": "npm version minor -m \"New minor version %s\"",
+    "patch": "npm version patch -m \"New patch version %s\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "pretest": "yarn run lint",
+    "test": "jest",
+    "build": "babel src/ -d dist/",
+    "preversion": "yarn build && git commit -a --allow-empty -m 'update dist'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salimkayabasi/representation-tool-file-reader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/salimkayabasi/representation-tool-file-reader/issues"
+  },
+  "homepage": "https://github.com/salimkayabasi/representation-tool-file-reader#readme",
+  "description": "",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "jest": "^20.0.4"
+  },
+  "dependencies": {
+    "js-yaml": "^3.8.4",
+    "lodash": "^4.17.4"
+  }
+}
