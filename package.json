@@ -1,6 +1,6 @@
 {
   "name": "representation-tool-file-reader",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Salim KAYABAŞI <salim.kayabasi@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
