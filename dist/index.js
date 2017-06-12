@@ -39,7 +39,11 @@ class ConfigReader {
 
   static getValue(context, template) {
     if (_lodash2.default.isString(template)) {
-      return _lodash2.default.template(template)(context);
+      try {
+        return _lodash2.default.template(template)(context);
+      } catch (e) {
+        return template;
+      }
     }
     return template;
   }
