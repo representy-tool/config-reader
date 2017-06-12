@@ -16,33 +16,62 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _logWith = require('log-with');
+
+var _logWith2 = _interopRequireDefault(_logWith);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const readConfig = path => _jsYaml2.default.safeLoad(_fs2.default.readFileSync(path, 'utf8'));
+const logger = (0, _logWith2.default)(module);
 
-const populate = (config, context) => {
-  const getValue = (source, value) => {
-    if (_lodash2.default.isString(value) && _lodash2.default.has(source, value)) {
-      return _lodash2.default.get(source, value);
+class ConfigReader {
+
+  static getDefaultOptions() {
+    return {
+      folder: 'build',
+      file: 'me.json'
+    };
+  }
+
+  static getValue(context, template) {
+    if (_lodash2.default.isString(template)) {
+      return _lodash2.default.template(template)(context);
     }
-    return value;
-  };
+    return template;
+  }
 
-  const check = (source, value) => {
+  static check(source, value) {
     if (_lodash2.default.isPlainObject(value)) {
-      return populate(value, source);
+      return ConfigReader.populate(value, source);
     }
-    return getValue(context, value);
-  };
+    return ConfigReader.getValue(source, value);
+  }
 
-  return _lodash2.default.mergeWith({}, config, (ignore, value) => {
-    if (_lodash2.default.isArray(value)) {
-      return _lodash2.default.chain(value).map(check.bind(null, context)).compact().value();
+  static populate(config, context) {
+    return _lodash2.default.mergeWith({}, config, (ignore, value) => {
+      if (_lodash2.default.isArray(value)) {
+        return _lodash2.default.chain(value).map(ConfigReader.check.bind(null, context)).compact().value();
+      }
+      return ConfigReader.check(context, value);
+    });
+  }
+
+  static readFile(folderPath) {
+    try {
+      return _jsYaml2.default.safeLoad(_fs2.default.readFileSync(_path2.default.resolve(process.cwd(), folderPath), 'utf8'));
+    } catch (e) {
+      logger.error("Couldn't load the configuration file", folderPath);
+      return {};
     }
-    return check(context, value);
-  });
-};
+  }
 
-const read = (path, env) => populate(readConfig(path), env);
+  static read(folderPath = 'config.yml', env = {}) {
+    return _lodash2.default.merge(ConfigReader.getDefaultOptions(), ConfigReader.populate(ConfigReader.readFile(folderPath), env));
+  }
+}
 
-exports.default = read;
+exports.default = ConfigReader;
