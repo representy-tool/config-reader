@@ -17,7 +17,11 @@ class ConfigReader {
 
   static getValue(context, template) {
     if (_.isString(template)) {
-      return _.template(template)(context);
+      try {
+        return _.template(template)(context);
+      } catch (e) {
+        return template;
+      }
     }
     return template;
   }
