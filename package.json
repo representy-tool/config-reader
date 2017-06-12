@@ -38,6 +38,29 @@
   },
   "dependencies": {
     "js-yaml": "^3.8.4",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "log-with": "^1.2.1"
+  },
+  "jest": {
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/build/**",
+      "!**/dist/**",
+      "!**/config/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    }
   }
 }

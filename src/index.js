@@ -1,39 +1,63 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
 import _ from 'lodash';
+import logWith from 'log-with';
+import path from 'path';
 
-const readConfig = path => yaml.safeLoad(fs.readFileSync(path, 'utf8'));
+const logger = logWith(module);
 
-const populate = (config, context) => {
-  const getValue = (source, value) => {
-    if (_.isString(value) && _.has(source, value)) {
-      return _.get(source, value);
+class ConfigReader {
+
+  static getDefaultOptions() {
+    return {
+      folder: 'build',
+      file: 'me.json',
+    };
+  }
+
+  static getValue(context, template) {
+    if (_.isString(template)) {
+      return _.template(template)(context);
     }
-    return value;
-  };
+    return template;
+  }
 
-  const check = (source, value) => {
+  static check(source, value) {
     if (_.isPlainObject(value)) {
-      return populate(value, source);
+      return ConfigReader.populate(value, source);
     }
-    return getValue(context, value);
-  };
+    return ConfigReader.getValue(source, value);
+  }
 
-  return _.mergeWith(
-    {},
-    config,
-    (ignore, value) => {
-      if (_.isArray(value)) {
-        return _.chain(value)
-          .map(check.bind(null, context))
-          .compact()
-          .value();
-      }
-      return check(context, value);
-    },
-  );
-};
+  static populate(config, context) {
+    return _.mergeWith(
+      {},
+      config,
+      (ignore, value) => {
+        if (_.isArray(value)) {
+          return _.chain(value)
+            .map(ConfigReader.check.bind(null, context))
+            .compact()
+            .value();
+        }
+        return ConfigReader.check(context, value);
+      },
+    );
+  }
 
-const read = (path, env) => populate(readConfig(path), env);
+  static readFile(folderPath) {
+    try {
+      return yaml.safeLoad(fs.readFileSync(path.resolve(process.cwd(), folderPath), 'utf8'));
+    } catch (e) {
+      logger.error("Couldn't load the configuration file", folderPath);
+      return {};
+    }
+  }
 
-export default read;
+  static read(folderPath = 'config.yml', env = {}) {
+    return _.merge(ConfigReader.getDefaultOptions(),
+      ConfigReader.populate(ConfigReader.readFile(folderPath), env));
+  }
+}
+
+export default ConfigReader;
