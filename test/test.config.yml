@@ -1,0 +1,9 @@
+---
+sources:
+  github:
+    options:
+      - ${TOKEN}
+    user: salimkayabasi
+tokens:
+  github: ${TOKEN}
+  fake-token: 123456
