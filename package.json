@@ -1,6 +1,6 @@
 {
-  "name": "representation-tool-file-reader",
-  "version": "0.0.4",
+  "name": "representy-tool-file-reader",
+  "version": "0.0.5",
   "author": "Salim KAYABAŞI <salim.kayabasi@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/salimkayabasi/representation-tool-file-reader.git"
+    "url": "git+https://github.com/representy/representy-tool-file-reader.git"
   },
   "bugs": {
-    "url": "https://github.com/salimkayabasi/representation-tool-file-reader/issues"
+    "url": "https://github.com/representy/representy-tool-file-reader/issues"
   },
-  "homepage": "https://github.com/salimkayabasi/representation-tool-file-reader#readme",
+  "homepage": "https://github.com/representy/representy-tool-file-reader#readme",
   "description": "",
   "devDependencies": {
     "babel-cli": "^6.24.1",
