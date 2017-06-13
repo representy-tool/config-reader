@@ -1,6 +1,6 @@
 {
   "name": "representy-tool-file-reader",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Salim KAYABAŞI <salim.kayabasi@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
