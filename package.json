@@ -1,6 +1,6 @@
 {
   "name": "representy-tool-config-reader",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Salim KAYABAŞI <salim.kayabasi@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
